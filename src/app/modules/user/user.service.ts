@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import ApiError from '../../../errors/Apierror';
-import { IUser } from './user.interface';
-import User from './user.model';
+import ApiError from "../../../errors/Apierror";
+import { IUser } from "./user.interface";
+import User from "./user.model";
 
 const createUser = async (userData: IUser): Promise<IUser | null> => {
   const newUser = await User.create(userData);
@@ -15,19 +15,19 @@ const getAllUsers = async (): Promise<IUser[]> => {
   return users;
 };
 const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById(id);
+  const result = await User.findById({ _id: id });
 
   return result;
 };
 
 const updateUser = async (
   id: string,
-  payload: Partial<IUser>,
+  payload: Partial<IUser>
 ): Promise<IUser | null> => {
   const isExist = await User.findOne({ _id: id });
 
   if (!isExist) {
-    throw new ApiError(404, 'User not found !');
+    throw new ApiError(404, "User not found !");
   }
 
   const { name, ...UserData } = payload;
@@ -37,7 +37,7 @@ const updateUser = async (
   // dynamically handling
 
   if (name && Object.keys(name).length > 0) {
-    Object.keys(name).forEach(key => {
+    Object.keys(name).forEach((key) => {
       const nameKey = `name.${key}` as keyof Partial<IUser>;
       (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
     });
@@ -53,6 +53,7 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
 
   return result;
 };
+
 export const UserService = {
   createUser,
   getAllUsers,
