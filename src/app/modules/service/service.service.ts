@@ -9,11 +9,11 @@ const createBuilding = async (payload: any): Promise<any> => {
   return result;
 };
 const getAllBuildings = async (): Promise<any> => {
-  const result = await Service.find({});
+  const result = await Service.find({}).populate("rooms");
   return result;
 };
 const getSingleBuilding = async (id: string): Promise<any> => {
-  const result = await Service.findOne({ _id: id });
+  const result = await Service.findOne({ _id: id }).populate("rooms");
   return result;
 };
 const updateBuilding = async (payload: any, id: string): Promise<any> => {
