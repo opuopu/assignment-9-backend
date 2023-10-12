@@ -14,7 +14,8 @@ import ApiError from "../../../errors/Apierror";
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
-  const isUserExist = await User.isUserExist(email);
+  // const isUserExist = await User.isUserExist(email);
+  const isUserExist = await User.findOne({ email });
 
   if (!isUserExist) {
     throw new ApiError(404, "User does not exist");
@@ -28,8 +29,8 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   }
 
   //create access token & refresh token
-
-  const { _id: userId, role } = isUserExist;
+  console.log("role", isUserExist?.role);
+  const { _id: userId, role: role } = isUserExist;
   const accessToken = jwtHelpers.createToken(
     { userId, role, email },
     config.jwt.secret as Secret,

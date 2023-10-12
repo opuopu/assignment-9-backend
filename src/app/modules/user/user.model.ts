@@ -12,6 +12,9 @@ const UserSchema = new Schema<IUser, UserModel>(
     dob: {
       type: String,
     },
+    profileImg: {
+      type: String,
+    },
     gender: {
       type: String,
       enum: ["male", "female", "others"],
@@ -37,6 +40,15 @@ const UserSchema = new Schema<IUser, UserModel>(
     role: {
       type: String,
       required: true,
+    },
+    preferences: {
+      nationality: {
+        type: String,
+      },
+
+      Language: {
+        type: String,
+      },
     },
   },
   {

@@ -18,6 +18,10 @@ const ServiceSchema = new Schema({
     enum: LocationEnum,
     require: true,
   },
+  category: {
+    type: String,
+    enum: ["1 star", "2 star", "3 star", "4 star", "5 star"],
+  },
   images: [
     {
       image: String,
@@ -46,6 +50,14 @@ const ServiceSchema = new Schema({
     type: Number,
   },
 
+  minPriceRange: {
+    type: String,
+    default: 0,
+  },
+  maxPriceRange: {
+    type: String,
+    default: 0,
+  },
   rooms: [
     {
       type: Schema.Types.ObjectId,

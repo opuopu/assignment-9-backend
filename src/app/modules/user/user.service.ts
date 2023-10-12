@@ -30,18 +30,23 @@ const updateUser = async (
     throw new ApiError(404, "User not found !");
   }
 
-  const { name, ...UserData } = payload;
+  const { role, ...UserData } = payload;
 
   const updatedUserData: Partial<IUser> = { ...UserData };
-
+  if (role) {
+    throw new ApiError(
+      500,
+      "something went wrong. you cannot update your role"
+    );
+  }
   // dynamically handling
 
-  if (name && Object.keys(name).length > 0) {
-    Object.keys(name).forEach((key) => {
-      const nameKey = `name.${key}` as keyof Partial<IUser>;
-      (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
-    });
-  }
+  // if (name && Object.keys(name).length > 0) {
+  //   Object.keys(name).forEach((key) => {
+  //     const nameKey = `name.${key}` as keyof Partial<IUser>;
+  //     (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
+  //   });
+  // }
 
   const result = await User.findOneAndUpdate({ _id: id }, updatedUserData, {
     new: true,
@@ -54,10 +59,29 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const manageRole = async (payload: any, id: string) => {
+  const { role }: any = payload;
+  const result = await User.findByIdAndUpdate(
+    { id },
+    {
+      $set: {
+        role:
+          (role === "admin" && "admin") ||
+          (role === "super_admin" && "super_admin") ||
+          (role === "user" && "user"),
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
 export const UserService = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  manageRole,
 };

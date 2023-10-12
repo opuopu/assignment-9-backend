@@ -61,10 +61,21 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const manageRole = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.manageRole(req.body, req.params.id);
+  sendResponse<IUser>(res, {
+    statusCode: 200,
+    success: true,
+    message: "role updated successfully successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
+  manageRole,
   deleteUser,
 };

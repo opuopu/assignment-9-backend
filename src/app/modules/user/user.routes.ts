@@ -14,14 +14,14 @@ router.post(
 );
 router.get("/", auth(ENUM_USER_ROLE.ADMIN), UserController.getAllUsers);
 router.get(
-  "/my-profile",
-  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  "/my-profile/:id",
+  // auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   UserController.getSingleUser
 );
 router.patch(
-  "/my-profile",
+  "/my-profile/:id",
   // validateRequest(ProfileValidation.updateProfileZodSchema),
-  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  // auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   UserController.updateUser
 );
 router.get("/:id", auth(ENUM_USER_ROLE.ADMIN), UserController.getSingleUser);
@@ -30,6 +30,11 @@ router.patch(
   "/:id",
   validateRequest(UserValidation.updateUserZodSchema),
   auth(ENUM_USER_ROLE.ADMIN),
+  UserController.updateUser
+);
+router.patch(
+  "/manage-role/:id",
+  auth(ENUM_USER_ROLE.SUPER_ADMIN),
   UserController.updateUser
 );
 

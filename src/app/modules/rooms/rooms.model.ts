@@ -1,5 +1,6 @@
 import { model } from "mongoose";
 import { Schema } from "mongoose";
+import { roomType } from "./rooms.constant";
 
 const RoomSchema = new Schema({
   title: {
@@ -23,6 +24,10 @@ const RoomSchema = new Schema({
   category: {
     type: String,
     enum: ["delux", "delux king", "delux twin"],
+  },
+  roomType: {
+    type: String,
+    enum: roomType,
   },
   bedSize: {
     type: Number,

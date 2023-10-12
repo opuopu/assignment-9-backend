@@ -5,6 +5,7 @@ import { Model } from "mongoose";
 //   firstName: string;
 //   lastName: string;
 // };
+
 export type IUser = {
   _id?: string;
   name: string;
@@ -15,9 +16,15 @@ export type IUser = {
   role?: string;
   dob?: string;
   gender?: string;
+  profileImg?: string;
+  preferences: {
+    Language?: string;
+    nationality?: string;
+  };
 
   // test: Types.ObjectId | ITest
 };
+
 export type UserModel = {
   isUserExist(
     email: string

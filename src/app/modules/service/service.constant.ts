@@ -10,3 +10,11 @@ export const LocationEnum = [
   "Gazipur",
   "Khulna",
 ];
+
+export const ServiceSearchableFields = ["name", "location", "category"];
+export const ServiceFilterableFields = [
+  "searchTerm",
+  "minPriceRange",
+  "maxPriceRange",
+  "roomType",
+];
