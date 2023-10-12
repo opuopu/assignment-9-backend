@@ -1,14 +1,22 @@
 import { Schema, model } from "mongoose";
-import { LocationEnum } from "../user/user.constants";
+import { LocationEnum } from "./service.constant";
 
 const ServiceSchema = new Schema({
   name: {
     type: String,
-    require: [true, "name is required"],
+    required: [true, "name is required"],
+  },
+  code: {
+    type: String,
+  },
+  forCheck: {
+    type: String,
+    default: "building",
   },
   location: {
     type: String,
     enum: LocationEnum,
+    require: true,
   },
   images: [
     {
@@ -20,11 +28,13 @@ const ServiceSchema = new Schema({
       type: String,
     },
   ],
+  description: {
+    type: String,
+  },
 
   reviewAndRatings: [
     {
       rating: Number,
-      enum: [0, 1, 2, 3, 4, 5],
     },
     {
       comments: {
@@ -32,11 +42,10 @@ const ServiceSchema = new Schema({
       },
     },
   ],
-  bookingStatus: {
-    type: String,
-    enum: ["pending", "approved", "canceled"],
-    default: "pending",
+  ratingLength: {
+    type: Number,
   },
+
   rooms: [
     {
       type: Schema.Types.ObjectId,
