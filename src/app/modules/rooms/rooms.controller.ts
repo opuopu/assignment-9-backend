@@ -3,6 +3,9 @@ import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchasync";
 import sendResponse from "../../../shared/sendResponse";
 import { roomservices } from "./rooms.service";
+import pick from "../../../shared/pick";
+import { roomFilterableFields } from "./rooms.constant";
+import paginationFields from "../../../constants/pagination";
 
 const createAroom = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.createAroom(req.body);
@@ -14,12 +17,15 @@ const createAroom = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getallRooms = catchAsync(async (req: Request, res: Response) => {
-  const result = await roomservices.getallRooms();
+  const filters = pick(req.query, roomFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await roomservices.getallRooms(filters, paginationOptions);
   sendResponse<any>(res, {
     statusCode: 200,
     success: true,
-    message: "room retrive  successfully",
-    data: result,
+    message: "rooms retrive  successfully",
+    meta: result.meta,
+    data: result.data,
   });
 });
 

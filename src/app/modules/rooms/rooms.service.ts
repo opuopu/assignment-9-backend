@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import ApiError from "../../../errors/Apierror";
 import Service from "../service/service.model";
 import Room from "./rooms.model";
+import { IPaginationOptions } from "../../../interfaces/paginations";
+import { paginationHelpers } from "../../../helpers/paginationHelper";
+import { SortOrder } from "mongoose";
 
 const createAroom = async (payload: any): Promise<any> => {
   const { building }: any = payload;
@@ -28,9 +32,38 @@ const createAroom = async (payload: any): Promise<any> => {
 
   return room;
 };
-const getallRooms = async (): Promise<any> => {
-  const result = await Room.find({});
-  return result;
+const getallRooms = async (
+  filters: any,
+  paginationOptions: IPaginationOptions
+): Promise<any> => {
+  const { category, minPriceRange, maxPriceRange } = filters;
+  const { limit, page, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+  const query: any = {};
+  if (category) query.category = category;
+  if (minPriceRange || maxPriceRange) {
+    query.pricing = {};
+    minPriceRange ? (query.pricing.$gte = Number(minPriceRange)) : null;
+    maxPriceRange ? (query.pricing.$lte = Number(maxPriceRange)) : null;
+  }
+  const sortConditions: { [key: string]: SortOrder } = {};
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const result = await Room.find(query)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total: result.length,
+    },
+    data: result,
+  };
 };
 const getsingleRooms = async (id: string): Promise<any> => {
   const result = await Room.findOne({ _id: id });
