@@ -4,7 +4,8 @@ import ApiError from "../../../errors/Apierror";
 import Service from "../service/service.model";
 import Room from "./rooms.model";
 
-const createAroom = async (payload: any, buildingId: string): Promise<any> => {
+const createAroom = async (payload: any): Promise<any> => {
+  const { building }: any = payload;
   const room = await Room.create(payload);
   if (!room) {
     throw new ApiError(
@@ -15,7 +16,7 @@ const createAroom = async (payload: any, buildingId: string): Promise<any> => {
 
   // Push the room's _id into the building's rooms array
   const updatedBuilding = await Service.findByIdAndUpdate(
-    buildingId,
+    building,
     {
       $push: { rooms: room._id },
     },

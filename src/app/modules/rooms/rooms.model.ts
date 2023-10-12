@@ -16,6 +16,10 @@ const RoomSchema = new Schema({
       type: String,
     },
   ],
+  building: {
+    type: Schema.Types.ObjectId,
+    ref: "service",
+  },
   category: {
     type: String,
     enum: ["delux", "delux king", "delux twin"],

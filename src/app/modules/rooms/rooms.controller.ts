@@ -5,9 +5,7 @@ import sendResponse from "../../../shared/sendResponse";
 import { roomservices } from "./rooms.service";
 
 const createAroom = catchAsync(async (req: Request, res: Response) => {
-  const buildingId = req.body.buildingId;
-  delete req.body.buildingId;
-  const result = await roomservices.createAroom(req.body, buildingId);
+  const result = await roomservices.createAroom(req.body);
   sendResponse<any>(res, {
     statusCode: 200,
     success: true,
