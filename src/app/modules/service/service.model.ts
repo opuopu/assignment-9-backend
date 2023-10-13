@@ -42,8 +42,12 @@ const ServiceSchema = new Schema(
         rating: Number,
       },
       {
-        comments: {
-          type: String,
+        comments: String,
+      },
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "user",
         },
       },
     ],

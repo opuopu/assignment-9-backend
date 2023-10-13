@@ -19,6 +19,12 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       enum: ["male", "female", "others"],
     },
+    cart: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "service",
+      },
+    ],
 
     email: {
       type: String,
@@ -33,10 +39,7 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      required: true,
-    },
+
     role: {
       type: String,
       required: true,
@@ -48,6 +51,10 @@ const UserSchema = new Schema<IUser, UserModel>(
 
       Language: {
         type: String,
+      },
+      address: {
+        type: String,
+        required: true,
       },
     },
   },
@@ -74,8 +81,8 @@ UserSchema.statics.isUserExist = async function (
       _id: 1,
       email: 1,
       password: 1,
-      // role: 1,
-      // phoneNumber: 1,
+      role: 1,
+      phoneNumber: 1,
     }
   );
 };

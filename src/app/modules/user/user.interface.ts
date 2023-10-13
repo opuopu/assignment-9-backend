@@ -21,6 +21,7 @@ export type IUser = {
     Language?: string;
     nationality?: string;
   };
+  cart?: string[];
 
   // test: Types.ObjectId | ITest
 };

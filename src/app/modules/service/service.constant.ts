@@ -1,14 +1,14 @@
 export const LocationEnum = [
-  "Cox Bazar",
-  "Dhaka",
-  "Sylhet",
-  "Chittagong",
-  "Sreemangal",
-  "Kuakata",
-  "Rajshahi",
-  "Bandarban",
-  "Gazipur",
-  "Khulna",
+  "cox nazar",
+  "dhaka",
+  "sylhet",
+  "chittagong",
+  "sreemangal",
+  "kuakata",
+  "rajshahi",
+  "bandarban",
+  "gazipur",
+  "khulna",
 ];
 
 export const ServiceSearchableFields = ["name", "location", "category"];
