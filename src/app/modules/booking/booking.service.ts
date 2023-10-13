@@ -29,15 +29,12 @@ const getallBooking = async (
 
   const sortConditions: { [key: string]: SortOrder } = {};
   const query: any = {};
-
   if (payload.phone) {
     query["user.phone"] = { $regex: new RegExp(payload.phone), $options: "i" };
   }
-
   if (payload.email) {
     query["user.email"] = { $regex: new RegExp(payload.email), $options: "i" };
   }
-
   if (payload.bookingNo) {
     query.bookingNo = { $regex: new RegExp(payload.bookingNo), $options: "i" };
   }
@@ -75,10 +72,38 @@ const deleteBooking = async (id: string) => {
   const result = await Booking.findByIdAndDelete(id);
   return result;
 };
+const cancelBooking = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(id, {
+    $set: {
+      status: "cancelled",
+    },
+  });
+  return result;
+};
+const updatebookingStatusByAdmin = async (payload: any, id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        status:
+          (payload.status === "confirmed" && "confirmed") ||
+          (payload.status === "cancelled" && "cancelled"),
+        payStatus: payload.status === "confirmed" && "paid",
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  return result;
+};
 export const bookingServices = {
   createAbooking,
   getallBooking,
   getSingleBooking,
   updateBooking,
   deleteBooking,
+  cancelBooking,
+  updatebookingStatusByAdmin,
 };

@@ -58,10 +58,35 @@ const deleteBooking = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const cancelBooking = catchAsync(async (req: Request, res: Response) => {
+  const result = await bookingServices.cancelBooking(req.params.id);
+  sendResponse<any>(res, {
+    statusCode: 200,
+    success: true,
+    message: "booking cancelled  successfully",
+    data: result,
+  });
+});
+const updatebookingStatusByAdmin = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await bookingServices.updatebookingStatusByAdmin(
+      req.body,
+      req.params.id
+    );
+    sendResponse<any>(res, {
+      statusCode: 200,
+      success: true,
+      message: "booking status updated  successfully",
+      data: result,
+    });
+  }
+);
 export const bookingControllers = {
   createAbooking,
   getallBooking,
   getSingleBooking,
   deleteBooking,
   updateBooking,
+  cancelBooking,
+  updatebookingStatusByAdmin,
 };
