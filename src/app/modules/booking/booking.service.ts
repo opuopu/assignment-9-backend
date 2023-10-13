@@ -1,41 +1,20 @@
-import { Schema, model } from "mongoose";
+/* eslint-disable no-unused-expressions */
+import Booking from "./booking.model";
+import { generateBookingId } from "./booking.utiles";
 
-const BookingSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
-  },
-  room: {
-    type: Schema.Types.ObjectId,
-    ref: "room",
-    required: true,
-  },
-  checkInDate: {
-    type: String,
-    required: true,
-  },
-  checkOutDate: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
-    default: "Pending",
-  },
-  totalFee: {
-    type: Number,
-  },
-  payType: {
-    type: String,
-    enum: ["bkash", "nagad", "card", "cash"],
-  },
-  payStatus: {
-    type: String,
-    enum: ["paid", "unpaid"],
-  },
-});
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const createAbooking = async (payload: any, id: string) => {
+  const bookingNo = await generateBookingId();
+  const { checkInDate, checkOutDate } = payload;
+  const inDate = new Date(checkInDate).toISOString().split("T")[0];
+  const outDate = new Date(checkOutDate).toISOString().split("T")[0];
+  (payload.checkInDate = inDate), (payload.checkOutDate = outDate);
+  payload.room = id;
+  payload.bookingNo = bookingNo;
+  const result = await Booking.create(payload);
+  return result;
+};
 
-const Booking = model("booking", BookingSchema);
-export default Booking;
+export const bookingServices = {
+  createAbooking,
+};

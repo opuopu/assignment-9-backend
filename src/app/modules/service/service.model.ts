@@ -1,70 +1,75 @@
 import { Schema, model } from "mongoose";
 import { LocationEnum } from "./service.constant";
 
-const ServiceSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "name is required"],
-  },
-  code: {
-    type: String,
-  },
-  forCheck: {
-    type: String,
-    default: "building",
-  },
-  location: {
-    type: String,
-    enum: LocationEnum,
-    require: true,
-  },
-  category: {
-    type: String,
-    enum: ["1 star", "2 star", "3 star", "4 star", "5 star"],
-  },
-  images: [
-    {
-      image: String,
+const ServiceSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "name is required"],
     },
-  ],
-  facilities: [
-    {
+    code: {
       type: String,
     },
-  ],
-  description: {
-    type: String,
-  },
-
-  reviewAndRatings: [
-    {
-      rating: Number,
+    forCheck: {
+      type: String,
+      default: "building",
     },
-    {
-      comments: {
+    location: {
+      type: String,
+      enum: LocationEnum,
+      require: true,
+    },
+    category: {
+      type: String,
+      enum: ["1 star", "2 star", "3 star", "4 star", "5 star"],
+    },
+    images: [
+      {
+        image: String,
+      },
+    ],
+    facilities: [
+      {
         type: String,
       },
+    ],
+    description: {
+      type: String,
     },
-  ],
-  ratingLength: {
-    type: Number,
-  },
 
-  minPriceRange: {
-    type: String,
-    default: 0,
-  },
-  maxPriceRange: {
-    type: String,
-    default: 0,
-  },
-  rooms: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "room",
+    reviewAndRatings: [
+      {
+        rating: Number,
+      },
+      {
+        comments: {
+          type: String,
+        },
+      },
+    ],
+    ratingLength: {
+      type: Number,
     },
-  ],
-});
+
+    minPriceRange: {
+      type: String,
+      default: 0,
+    },
+    maxPriceRange: {
+      type: String,
+      default: 0,
+    },
+    rooms: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "room",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // room Schema
 
