@@ -81,6 +81,19 @@ const updatebookingStatusByAdmin = catchAsync(
     });
   }
 );
+const updateRoomBookingSchedulling = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await bookingServices.updateRoomBookingStatusSchedulling(
+      req.query
+    );
+    sendResponse<any>(res, {
+      statusCode: 200,
+      success: true,
+      message: "room booking status reset  successfully",
+      data: result,
+    });
+  }
+);
 export const bookingControllers = {
   createAbooking,
   getallBooking,
@@ -89,4 +102,5 @@ export const bookingControllers = {
   updateBooking,
   cancelBooking,
   updatebookingStatusByAdmin,
+  updateRoomBookingSchedulling,
 };

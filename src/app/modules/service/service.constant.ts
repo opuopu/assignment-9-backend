@@ -1,5 +1,5 @@
 export const LocationEnum = [
-  "cox nazar",
+  "cox bazar",
   "dhaka",
   "sylhet",
   "chittagong",

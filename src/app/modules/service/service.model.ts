@@ -17,7 +17,11 @@ const ServiceSchema = new Schema(
     location: {
       type: String,
       enum: LocationEnum,
-      require: true,
+      required: [true, "location category is required"],
+    },
+    locationInDetails: {
+      type: String,
+      required: [true, "location in details is required"],
     },
     category: {
       type: String,
@@ -51,10 +55,6 @@ const ServiceSchema = new Schema(
         },
       },
     ],
-    ratingLength: {
-      type: Number,
-    },
-
     minPriceRange: {
       type: String,
       default: 0,

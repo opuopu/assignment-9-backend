@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-expressions */
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IPaginationOptions } from "../../../interfaces/paginations";
 import Booking from "./booking.model";
-import { generateBookingId } from "./booking.utiles";
+// import { generateBookingId } from "./booking.utiles";
+import schedule from "node-schedule";
+import Room from "../rooms/rooms.model";
+
 // import { bookingSearchableFields } from "./booking.constant";
 // import { bookingSearchableFields } from "./booking.constant";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const createAbooking = async (payload: any, id: string) => {
-  const bookingNo = await generateBookingId();
+  const bookingNo = `BOOKING-${payload?.user?.phone}`;
   const { checkInDate, checkOutDate } = payload;
   const inDate = new Date(checkInDate).toISOString().split("T")[0];
   const outDate = new Date(checkOutDate).toISOString().split("T")[0];
@@ -91,13 +94,130 @@ const updatebookingStatusByAdmin = async (payload: any, id: string) => {
         payStatus: payload.status === "confirmed" && "paid",
       },
     },
+
     {
       new: true,
     }
   );
+  // eslint-disable-next-line no-cond-assign
+  if (payload.status === "confirmed" && result) {
+    const findRoom = await Booking.findOne({
+      $and: [{ _id: id }, { status: "confirmed" }],
+    });
+
+    if (findRoom) {
+      const updateHere = await Room.findByIdAndUpdate(
+        findRoom?.room,
+        {
+          $set: {
+            isBooked: true,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      console.log(updateHere);
+    }
+  }
 
   return result;
 };
+
+// scheduling handler
+
+const updateRoomBookingStatusSchedulling = async (query?: any) => {
+  const { id } = query;
+  console.log(id);
+
+  const now = new Date().toISOString().split("T")[0];
+
+  const session = await mongoose.startSession();
+  let result;
+  try {
+    session.startTransaction();
+    if (!id) {
+      const pastBookings = await Booking.find({
+        checkOutDate: { $lt: now },
+      });
+
+      const roomIds = pastBookings.map((booking) => booking.room);
+      result = await Room.updateMany(
+        {
+          _id: {
+            $in: roomIds,
+          },
+        },
+        {
+          $set: {
+            isBooked: false,
+          },
+        }
+      );
+
+      if (result) {
+        await Booking.updateMany(
+          {
+            _id: {
+              $in: pastBookings?.map((booking) => booking?._id),
+            },
+          },
+          {
+            $set: {
+              status: "closed",
+            },
+          }
+        );
+      }
+    } else {
+      const findOneBooking = await Booking.findById(id);
+      if (findOneBooking) {
+        result = await Room.findOneAndUpdate(
+          { _id: findOneBooking?.room },
+          {
+            $set: {
+              isBooked: false,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      }
+    }
+    if (result) {
+      await Booking.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            status: "closed",
+          },
+        },
+        {
+          new: true,
+        }
+      );
+    }
+    session.commitTransaction();
+    session.endSession();
+  } catch (error) {
+    session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+
+  return result;
+};
+
+const roomResetJobCallback = async () => {
+  await updateRoomBookingStatusSchedulling();
+};
+
+const roomResetSchedular = async () => {
+  return schedule.scheduleJob("0 0 * * *", roomResetJobCallback);
+};
+
+roomResetSchedular();
 export const bookingServices = {
   createAbooking,
   getallBooking,
@@ -106,4 +226,5 @@ export const bookingServices = {
   deleteBooking,
   cancelBooking,
   updatebookingStatusByAdmin,
+  updateRoomBookingStatusSchedulling,
 };
