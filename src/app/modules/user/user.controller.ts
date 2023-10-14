@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, RequestHandler, Response } from "express";
 import { UserService } from "./user.service";
 
 import sendResponse from "../../../shared/sendResponse";
 import { IUser } from "./user.interface";
 import catchAsync from "../../../shared/catchasync";
+import pick from "../../../shared/pick";
+import paginationFields from "../../../constants/pagination";
 
 const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -21,12 +24,14 @@ const createUser: RequestHandler = catchAsync(
 );
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getAllUsers();
-  sendResponse<IUser[]>(res, {
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await UserService.getAllUsers(req.query, paginationOptions);
+  sendResponse<any>(res, {
     statusCode: 200,
     success: true,
-    message: "User retrieved successfully",
-    data: result,
+    message: "service retrive  successfully",
+    meta: result.meta,
+    data: result.data,
   });
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {

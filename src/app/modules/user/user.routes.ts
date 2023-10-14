@@ -12,7 +12,7 @@ router.post(
   validateRequest(UserValidation.create),
   UserController.createUser
 );
-router.get("/", auth(ENUM_USER_ROLE.ADMIN), UserController.getAllUsers);
+router.get("/", UserController.getAllUsers);
 router.get(
   "/my-profile/:id",
   // auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),

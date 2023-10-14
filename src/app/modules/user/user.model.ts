@@ -56,7 +56,6 @@ const UserSchema = new Schema<IUser, UserModel>(
       },
       address: {
         type: String,
-        required: true,
       },
     },
   },

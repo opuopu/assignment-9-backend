@@ -26,6 +26,14 @@ export type IUser = {
   // test: Types.ObjectId | ITest
 };
 
+export type IUserResponse = {
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: IUser[];
+};
 export type UserModel = {
   isUserExist(
     email: string

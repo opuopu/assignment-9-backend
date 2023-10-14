@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { SortOrder } from "mongoose";
 import ApiError from "../../../errors/Apierror";
+import { paginationHelpers } from "../../../helpers/paginationHelper";
+import { IPaginationOptions } from "../../../interfaces/paginations";
 import { IUser } from "./user.interface";
 import User from "./user.model";
 
@@ -10,9 +13,32 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
   return newUser;
 };
 
-const getAllUsers = async (): Promise<IUser[]> => {
-  const users = await User.find({});
-  return users;
+const getAllUsers = async (
+  payload: any,
+  paginationOptions: IPaginationOptions
+): Promise<any> => {
+  const { limit, page, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+  const query: any = {};
+
+  if (payload.email) query.email = { $regex: payload.email, $options: "i" };
+  const sortConditions: { [key: string]: SortOrder } = {};
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const result = await User.find(query)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+  return {
+    meta: {
+      page,
+      limit,
+      total: result.length,
+    },
+    data: result,
+  };
 };
 const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findById({ _id: id });
