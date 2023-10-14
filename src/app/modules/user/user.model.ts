@@ -7,7 +7,7 @@ const UserSchema = new Schema<IUser, UserModel>(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "name is required"],
     },
     dob: {
       type: String,
@@ -28,7 +28,7 @@ const UserSchema = new Schema<IUser, UserModel>(
 
     email: {
       type: String,
-      required: true,
+      required: [true, "email is required"],
       unique: true,
     },
     phoneNumber: {
@@ -43,6 +43,8 @@ const UserSchema = new Schema<IUser, UserModel>(
     role: {
       type: String,
       required: true,
+      enum: ["user", "admin", "super_admin"],
+      default: "user",
     },
     preferences: {
       nationality: {

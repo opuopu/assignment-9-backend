@@ -6,6 +6,9 @@ import { IPaginationOptions } from "../../../interfaces/paginations";
 import { ServiceSearchableFields } from "./service.constant";
 import Service from "./service.model";
 import { generateServiceCode } from "./service.utiles";
+import Room from "../rooms/rooms.model";
+import ApiError from "../../../errors/Apierror";
+import httpStatus from "http-status";
 
 const createBuilding = async (payload: any): Promise<any> => {
   const code = await generateServiceCode();
@@ -116,6 +119,16 @@ const updateBuilding = async (payload: any, id: string): Promise<any> => {
   return result;
 };
 const deleteBuilding = async (id: string): Promise<any> => {
+  const service = await Service.findOne({ _id: id });
+  if (!service) {
+    throw new ApiError(httpStatus.NOT_FOUND, "service not found");
+  }
+  const roomIds = service.rooms.map((room) => room._id);
+  const deleteRooms = await Room.deleteMany({ _id: { $in: roomIds } });
+  if (!deleteRooms) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "rooms not deleted");
+  }
+
   const result = await Service.findOneAndDelete({ _id: id });
   return result;
 };

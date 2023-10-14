@@ -63,6 +63,15 @@ const ServiceSchema = new Schema(
       type: String,
       default: 0,
     },
+    status: {
+      type: String,
+      enum: ["in progress", "upcoming"],
+      default: "in progress",
+    },
+    comments: {
+      type: String,
+    },
+
     rooms: [
       {
         type: Schema.Types.ObjectId,
