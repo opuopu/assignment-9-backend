@@ -8,7 +8,8 @@ const RoomSchema = new Schema(
     },
     images: [
       {
-        image: String,
+        url: String,
+        public_id: String,
       },
     ],
     facilities: [

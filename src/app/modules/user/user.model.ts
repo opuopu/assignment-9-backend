@@ -13,7 +13,12 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
     },
     profileImg: {
-      type: String,
+      url: {
+        type: String,
+      },
+      public_id: {
+        type: String,
+      },
     },
     gender: {
       type: String,
@@ -51,7 +56,7 @@ const UserSchema = new Schema<IUser, UserModel>(
         type: String,
       },
 
-      Language: {
+      language: {
         type: String,
       },
       address: {

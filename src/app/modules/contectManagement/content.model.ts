@@ -3,8 +3,8 @@ import { Schema, model } from "mongoose";
 const BlogSchema = new Schema(
   {
     image: {
-      type: String,
-      required: [true, "image is required"],
+      url: String,
+      public_id: String,
     },
     title: {
       type: String,
@@ -12,7 +12,7 @@ const BlogSchema = new Schema(
     },
     description: {
       type: String,
-      required: [true, "title is required"],
+      required: [true, "desc is required"],
     },
   },
   {
@@ -22,7 +22,8 @@ const BlogSchema = new Schema(
 const faqSchema = new Schema(
   {
     image: {
-      type: String,
+      url: String,
+      public_id: String,
     },
     title: {
       type: String,
@@ -30,7 +31,7 @@ const faqSchema = new Schema(
     },
     description: {
       type: String,
-      required: [true, "title is required"],
+      required: [true, "desc is required"],
     },
   },
   {
@@ -45,7 +46,7 @@ const AboutUsSchema = new Schema(
     },
     description: {
       type: String,
-      required: [true, "title is required"],
+      required: [true, " idesc required"],
     },
   },
   {
