@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { JwtPayload, Secret } from "jsonwebtoken";
 import config from "../../../config";
 
@@ -10,26 +11,23 @@ import {
 import User from "../user/user.model";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import ApiError from "../../../errors/Apierror";
+import httpStatus from "http-status";
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
-  // const isUserExist = await User.isUserExist(email);
-  const isUserExist = await User.findOne({ email });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isUserExist: any = await User.findOne({ email });
   if (!isUserExist) {
-    throw new ApiError(404, "User does not exist");
+    throw new ApiError(httpStatus.NOT_FOUND, "user not found");
   }
-
-  if (
-    isUserExist.password &&
-    !(await User.isPasswordMatched(password, isUserExist.password))
-  ) {
-    throw new ApiError(402, "Password is incorrect");
+  const matchedpassword = await bcrypt.compare(password, isUserExist?.password);
+  if (!matchedpassword) {
+    throw new ApiError(httpStatus.BAD_GATEWAY, "password is incorrect");
   }
 
   //create access token & refresh token
-  console.log("role", isUserExist?.role);
+
   const { _id: userId, role: role } = isUserExist;
   const accessToken = jwtHelpers.createToken(
     { userId, role, email },
@@ -44,6 +42,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   );
 
   return {
+    data: isUserExist,
     accessToken,
     refreshToken,
   };

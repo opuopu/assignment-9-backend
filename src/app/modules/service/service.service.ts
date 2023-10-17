@@ -94,7 +94,7 @@ const getAllBuildings = async (
   }
 
   const result = await Service.aggregate(aggregationPipeline)
-    .sort(sortConditions)
+    .sort({ _id: 1 })
     .skip(skip)
     .limit(limit);
 

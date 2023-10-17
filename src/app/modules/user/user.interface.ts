@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
@@ -17,10 +18,10 @@ export type IUser = {
   dob?: string;
   gender?: string;
   profileImg?: string;
-  preferences: {
-    Language?: string;
-    nationality?: string;
-  };
+
+  Language?: string;
+  nationality?: string;
+
   cart?: string[];
 
   // test: Types.ObjectId | ITest
@@ -42,4 +43,5 @@ export type UserModel = {
     givenPassword: string,
     savedPassword: string
   ): Promise<boolean>;
+  findDuplicateEmail(email: string): Promise<any>;
 } & Model<IUser>;

@@ -1,3 +1,4 @@
+// import bcrypt from "bcrypt";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { SortOrder } from "mongoose";
@@ -6,8 +7,29 @@ import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IPaginationOptions } from "../../../interfaces/paginations";
 import { IUser } from "./user.interface";
 import User from "./user.model";
+import httpStatus from "http-status";
+// import config from "../../../config";
 
 const createUser = async (userData: IUser): Promise<IUser | null> => {
+  const { email, phoneNumber } = userData;
+  const findDuplicateEmail = await User.findOne({ email: email });
+  if (findDuplicateEmail) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "user already exist with this email  try different one !"
+    );
+  }
+  const findDuplicatePhone = await User.findOne({ phoneNumber: phoneNumber });
+  if (findDuplicatePhone) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "user already exist with this phone try different One!"
+    );
+  }
+  // userData.password = await bcrypt.hash(
+  //   userData?.password,
+  //   Number(config.bcrypt_salt_rounds)
+  // );
   const newUser = await User.create(userData);
 
   return newUser;
@@ -41,15 +63,15 @@ const getAllUsers = async (
   };
 };
 const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById({ _id: id });
-
+  const result = await User.findOne({ _id: id });
+  console.log(result);
   return result;
 };
 
 const updateUser = async (
   id: string,
-  payload: Partial<IUser>
-): Promise<IUser | null> => {
+  payload: Partial<any>
+): Promise<any | null> => {
   const isExist = await User.findOne({ _id: id });
 
   if (!isExist) {
@@ -57,30 +79,22 @@ const updateUser = async (
   }
 
   const { role, ...UserData } = payload;
-
-  const updatedUserData: Partial<IUser> = { ...UserData };
+  console.log(payload);
   if (role) {
     throw new ApiError(
       500,
       "something went wrong. you cannot update your role"
     );
   }
-  // dynamically handling
 
-  // if (name && Object.keys(name).length > 0) {
-  //   Object.keys(name).forEach((key) => {
-  //     const nameKey = `name.${key}` as keyof Partial<IUser>;
-  //     (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
-  //   });
-  // }
-
-  const result = await User.findOneAndUpdate({ _id: id }, updatedUserData, {
+  const result = await User.findOneAndUpdate({ _id: id }, UserData, {
     new: true,
   });
+  console.log("result", result);
   return result;
 };
 const deleteUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findByIdAndDelete(id);
+  const result = await User.findOneAndDelete({ _id: id });
 
   return result;
 };

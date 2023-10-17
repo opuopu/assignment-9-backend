@@ -25,12 +25,12 @@ const ServiceSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["1 star", "2 star", "3 star", "4 star", "5 star"],
+      enum: ["hotels", "apartments", "resorts", "villas"],
     },
     images: [
       {
         url: String,
-        public_id: String,
+        publicLink: String,
       },
     ],
     facilities: [

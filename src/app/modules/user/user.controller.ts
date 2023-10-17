@@ -36,6 +36,7 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+
   const result = await UserService.getSingleUser(id);
   sendResponse<IUser>(res, {
     statusCode: 200,
@@ -47,6 +48,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
+  console.log("body", req.body);
   const result = await UserService.updateUser(id, updatedData);
   sendResponse<IUser>(res, {
     statusCode: 200,
