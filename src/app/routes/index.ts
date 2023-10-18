@@ -7,8 +7,8 @@ import { bookingRouter } from "../modules/booking/booking.routes";
 import {
   aboutUsRoutes,
   blogRoutes,
-  faqRoutes,
 } from "../modules/contectManagement/content.routes";
+import { faqRoutes } from "../modules/contectManagement/faqroutes";
 
 const router = express.Router();
 

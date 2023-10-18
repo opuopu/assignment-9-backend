@@ -102,11 +102,11 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
 // faq
 
 const createfaq = catchAsync(async (req: Request, res: Response) => {
-  const result = await blogServices.createBlog(req.body);
+  const result = await faqServices.createfaq(req.body);
   sendResponse<any>(res, {
     statusCode: 200,
     success: true,
-    message: "blog created  successfully",
+    message: "faq created  successfully",
     data: result,
   });
 });

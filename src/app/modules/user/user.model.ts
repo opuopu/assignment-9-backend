@@ -38,7 +38,7 @@ const UserSchema = new Schema<any, UserModel>(
       unique: true,
     },
     phoneNumber: {
-      type: String,
+      type: Number,
       unique: true,
     },
     password: {

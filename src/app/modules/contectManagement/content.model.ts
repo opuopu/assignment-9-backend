@@ -23,7 +23,7 @@ const faqSchema = new Schema(
   {
     image: {
       url: String,
-      public_id: String,
+      publicLink: String,
     },
     title: {
       type: String,

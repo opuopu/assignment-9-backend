@@ -52,9 +52,9 @@ const deleteBlogs = async (id: string) => {
 const updateBlogs = async (payload: any, id: string) => {
   const result = await Blog.findByIdAndUpdate(
     id,
-    {
-      payload,
-    },
+
+    payload,
+
     {
       new: true,
     }
@@ -72,20 +72,16 @@ const getgallfaqs = async () => {
   return result;
 };
 const getsinglefaqs = async (id: string) => {
-  const result = await Faq.findById(id);
+  const result = await Faq.findOne({ _id: id });
   return result;
 };
 
 const updatefaqs = async (payload: any, id: string) => {
-  const result = await Faq.findOneAndUpdate(
-    { _id: id },
-    {
-      payload,
-    },
-    {
-      new: true,
-    }
-  );
+  console.log(payload, id);
+  const result = await Faq.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  console.log(result);
   return result;
 };
 const deletefaqs = async (id: string) => {

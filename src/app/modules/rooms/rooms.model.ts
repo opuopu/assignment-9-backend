@@ -53,6 +53,20 @@ const RoomSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    reviewAndRatings: [
+      {
+        rating: Number,
+      },
+      {
+        comments: String,
+      },
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "user",
+        },
+      },
+    ],
   },
   {
     timestamps: true,

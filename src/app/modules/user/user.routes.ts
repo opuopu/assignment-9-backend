@@ -2,8 +2,8 @@ import express from "express";
 import { UserController } from "./user.controller";
 // import { validateRequest } from "../../middlewares/validateRequest";
 // import { UserValidation } from "./user.validations";
-import { ENUM_USER_ROLE } from "../../../enums/user";
-import auth from "../../middlewares/auth";
+// import { ENUM_USER_ROLE } from "../../../enums/user";
+// import auth from "../../middlewares/auth";
 
 const router = express.Router();
 
@@ -34,8 +34,8 @@ router.patch(
 );
 router.patch(
   "/manage-role/:id",
-  auth(ENUM_USER_ROLE.SUPER_ADMIN),
-  UserController.updateUser
+  // auth(ENUM_USER_ROLE.SUPER_ADMIN),
+  UserController.manageRole
 );
 
 export const UserRoutes = router;

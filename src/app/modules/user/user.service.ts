@@ -20,6 +20,7 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
     );
   }
   const findDuplicatePhone = await User.findOne({ phoneNumber: phoneNumber });
+  console.log(findDuplicatePhone);
   if (findDuplicatePhone) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
@@ -101,8 +102,9 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
 
 const manageRole = async (payload: any, id: string) => {
   const { role }: any = payload;
-  const result = await User.findByIdAndUpdate(
-    { id },
+  console.log(role);
+  const result = await User.findOneAndUpdate(
+    { _id: id },
     {
       $set: {
         role:

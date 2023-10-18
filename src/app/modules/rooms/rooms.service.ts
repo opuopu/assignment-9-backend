@@ -85,10 +85,40 @@ const deleteRoom = async (id: string): Promise<any> => {
   return result;
 };
 
+const reviewAndRatings = async (roomId: string, payload: any) => {
+  const result = await Room.findOneAndUpdate(
+    { _id: roomId },
+    {
+      $push: {
+        reviewAndRatings: payload,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+const getreviews = async (userId: any) => {
+  let result;
+  if (userId) {
+    result = await Room.find({
+      reviewAndRatings: {
+        $elemMatch: { userId },
+      },
+    });
+  } else {
+    result = await Room.find({});
+  }
+  return result;
+};
+
 export const roomservices = {
   createAroom,
   getallRooms,
   getsingleRooms,
   updateRoom,
   deleteRoom,
+  reviewAndRatings,
+  getreviews,
 };

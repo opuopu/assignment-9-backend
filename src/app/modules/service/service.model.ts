@@ -42,20 +42,6 @@ const ServiceSchema = new Schema(
       type: String,
     },
 
-    reviewAndRatings: [
-      {
-        rating: Number,
-      },
-      {
-        comments: String,
-      },
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "user",
-        },
-      },
-    ],
     minPriceRange: {
       type: String,
       default: 0,

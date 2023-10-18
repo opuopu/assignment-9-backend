@@ -56,10 +56,30 @@ const deleteRoom = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const reviewAndRatings = catchAsync(async (req: Request, res: Response) => {
+  const result = await roomservices.reviewAndRatings(req.params.id, req.body);
+  sendResponse<any>(res, {
+    statusCode: 200,
+    success: true,
+    message: "review added",
+    data: result,
+  });
+});
+const getreviews = catchAsync(async (req: Request, res: Response) => {
+  const result = await roomservices.getreviews(req.params.id);
+  sendResponse<any>(res, {
+    statusCode: 200,
+    success: true,
+    message: "review retrived",
+    data: result,
+  });
+});
 export const roomController = {
   createAroom,
   getallRooms,
   getsingleRooms,
   deleteRoom,
   updateRoom,
+  reviewAndRatings,
+  getreviews,
 };
