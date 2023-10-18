@@ -9,7 +9,7 @@ const RoomSchema = new Schema(
     images: [
       {
         url: String,
-        public_id: String,
+        publicLink: String,
       },
     ],
     facilities: [
@@ -21,6 +21,17 @@ const RoomSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "service",
     },
+    roomId: {
+      type: String,
+    },
+    forCheck: {
+      type: String,
+      default: "rooms",
+    },
+    discount: {
+      type: Number,
+    },
+
     category: {
       type: String,
       enum: ["delux", "delux king", "delux twin", "3 bed"],

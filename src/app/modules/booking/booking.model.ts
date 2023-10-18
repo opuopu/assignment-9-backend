@@ -46,7 +46,10 @@ const BookingSchema = new Schema(
       enum: ["pending", "confirmed", "cancelled", "closed"],
       default: "pending",
     },
-
+    progresStatus: {
+      type: String,
+      enum: ["in progress", "upcoming"],
+    },
     payType: {
       type: String,
       enum: ["bkash", "nagad", "card", "cash"],
@@ -58,7 +61,6 @@ const BookingSchema = new Schema(
     },
     bookingNo: {
       type: String,
-      unique: true,
     },
     forCheck: {
       type: String,

@@ -7,9 +7,13 @@ import Room from "./rooms.model";
 import { IPaginationOptions } from "../../../interfaces/paginations";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { SortOrder } from "mongoose";
+import { generateRoomId } from "./rooms.utiels";
 
 const createAroom = async (payload: any): Promise<any> => {
   const { building }: any = payload;
+  const roomId = await generateRoomId(payload?.title);
+  console.log(building);
+  payload.roomId = roomId;
   const room = await Room.create(payload);
   if (!room) {
     throw new ApiError(
@@ -52,9 +56,10 @@ const getallRooms = async (
   }
 
   const result = await Room.find(query)
-    .sort(sortConditions)
+    .sort({ _id: 1 })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate("building");
 
   return {
     meta: {

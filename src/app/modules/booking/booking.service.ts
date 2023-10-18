@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-expressions */
-import mongoose, { SortOrder } from "mongoose";
+import { SortOrder } from "mongoose";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IPaginationOptions } from "../../../interfaces/paginations";
 import Booking from "./booking.model";
 // import { generateBookingId } from "./booking.utiles";
-import schedule from "node-schedule";
+
 import Room from "../rooms/rooms.model";
+import ApiError from "../../../errors/Apierror";
+import httpStatus from "http-status";
 
 // import { bookingSearchableFields } from "./booking.constant";
 // import { bookingSearchableFields } from "./booking.constant";
@@ -20,6 +22,7 @@ const createAbooking = async (payload: any, id: string) => {
   payload.room = id;
   payload.bookingNo = bookingNo;
   const result = await Booking.create(payload);
+
   return result;
 };
 
@@ -84,6 +87,7 @@ const cancelBooking = async (id: string) => {
   return result;
 };
 const updatebookingStatusByAdmin = async (payload: any, id: string) => {
+  console.log(payload);
   const result = await Booking.findByIdAndUpdate(
     id,
     {
@@ -126,98 +130,49 @@ const updatebookingStatusByAdmin = async (payload: any, id: string) => {
 
 // scheduling handler
 
-const updateRoomBookingStatusSchedulling = async (query?: any) => {
-  const { id } = query;
-  console.log(id);
+const updateRoomBookingStatusSchedulling = async (id: string) => {
+  const findbooking = await Booking.findOne({
+    _id: id,
 
-  const now = new Date().toISOString().split("T")[0];
+  });
 
-  const session = await mongoose.startSession();
-  let result;
-  try {
-    session.startTransaction();
-    if (!id) {
-      const pastBookings = await Booking.find({
-        checkOutDate: { $lt: now },
-      });
-
-      const roomIds = pastBookings.map((booking) => booking.room);
-      result = await Room.updateMany(
-        {
-          _id: {
-            $in: roomIds,
-          },
-        },
-        {
-          $set: {
-            isBooked: false,
-          },
-        }
-      );
-
-      if (result) {
-        await Booking.updateMany(
-          {
-            _id: {
-              $in: pastBookings?.map((booking) => booking?._id),
-            },
-          },
-          {
-            $set: {
-              status: "closed",
-            },
-          }
-        );
-      }
-    } else {
-      const findOneBooking = await Booking.findById(id);
-      if (findOneBooking) {
-        result = await Room.findOneAndUpdate(
-          { _id: findOneBooking?.room },
-          {
-            $set: {
-              isBooked: false,
-            },
-          },
-          {
-            new: true,
-          }
-        );
-      }
-    }
-    if (result) {
-      await Booking.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            status: "closed",
-          },
-        },
-        {
-          new: true,
-        }
-      );
-    }
-    session.commitTransaction();
-    session.endSession();
-  } catch (error) {
-    session.abortTransaction();
-    session.endSession();
-    throw error;
+  if (!findbooking) {
+    throw new ApiError(httpStatus.NOT_FOUND, "booking not found for closed");
   }
+  const findRoomANDUpdate = await Room.findOneAndUpdate(
+    {
+      _id: findbooking?.room,
+    },
+    {
+      $set: {
+        isBooked: false,
+      },
+    },
+    { new: true }
+  );
+
+  if (!findRoomANDUpdate) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      "rooms status not found for update"
+    );
+  }
+  const result = await Booking.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        status: "closed",
+      },
+    },
+
+    {
+      new: true,
+    }
+  );
 
   return result;
 };
 
-const roomResetJobCallback = async () => {
-  await updateRoomBookingStatusSchedulling();
-};
-
-const roomResetSchedular = async () => {
-  return schedule.scheduleJob("0 0 * * *", roomResetJobCallback);
-};
-
-roomResetSchedular();
 export const bookingServices = {
   createAbooking,
   getallBooking,

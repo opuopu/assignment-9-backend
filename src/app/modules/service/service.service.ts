@@ -36,7 +36,8 @@ const getAllBuildings = async (
   filters: any,
   paginationOptions: IPaginationOptions
 ): Promise<any> => {
-  const { searchTerm, minPriceRange, maxPriceRange, roomType } = filters;
+  const { searchTerm, minPriceRange, maxPriceRange, roomType, code } = filters;
+  console.log("code", code);
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
   const aggregationPipeline = [];
@@ -88,6 +89,13 @@ const getAllBuildings = async (
       },
     });
   }
+  if (code) {
+    aggregationPipeline.push({
+      $match: {
+        code: code,
+      },
+    });
+  }
   const sortConditions: { [key: string]: SortOrder } = {};
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
@@ -110,6 +118,7 @@ const getAllBuildings = async (
 
 const getSingleBuilding = async (id: string): Promise<any> => {
   const result = await Service.findOne({ _id: id }).populate("rooms");
+  console.log(result);
   return result;
 };
 const updateBuilding = async (payload: any, id: string): Promise<any> => {

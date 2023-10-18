@@ -73,4 +73,5 @@ export const ServiceFilterableFields = [
   "minPriceRange",
   "maxPriceRange",
   "roomType",
+  "code",
 ];

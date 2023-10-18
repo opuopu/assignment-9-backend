@@ -73,6 +73,7 @@ const updatebookingStatusByAdmin = catchAsync(
       req.body,
       req.params.id
     );
+    console.log(req.body);
     sendResponse<any>(res, {
       statusCode: 200,
       success: true,
@@ -84,7 +85,7 @@ const updatebookingStatusByAdmin = catchAsync(
 const updateRoomBookingSchedulling = catchAsync(
   async (req: Request, res: Response) => {
     const result = await bookingServices.updateRoomBookingStatusSchedulling(
-      req.query
+      req.params.id
     );
     sendResponse<any>(res, {
       statusCode: 200,
