@@ -53,7 +53,8 @@ const getAllUsers = async (
   const result = await User.find(query)
     .sort(sortConditions)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate("cart");
   return {
     meta: {
       page,
@@ -64,7 +65,7 @@ const getAllUsers = async (
   };
 };
 const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findOne({ _id: id });
+  const result = await User.findOne({ _id: id }).populate("cart");
   console.log(result);
   return result;
 };
