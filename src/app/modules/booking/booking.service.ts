@@ -44,6 +44,9 @@ const getallBooking = async (
   if (payload.bookingNo) {
     query.bookingNo = { $regex: new RegExp(payload.bookingNo), $options: "i" };
   }
+  if (payload.userId) {
+    query.userId = payload.userId;
+  }
 
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
@@ -133,7 +136,6 @@ const updatebookingStatusByAdmin = async (payload: any, id: string) => {
 const updateRoomBookingStatusSchedulling = async (id: string) => {
   const findbooking = await Booking.findOne({
     _id: id,
-
   });
 
   if (!findbooking) {

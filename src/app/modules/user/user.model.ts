@@ -28,7 +28,7 @@ const UserSchema = new Schema<any, UserModel>(
     cart: [
       {
         type: Schema.Types.ObjectId,
-        ref: "service",
+        ref: "room",
       },
     ],
 

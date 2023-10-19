@@ -8,6 +8,7 @@ import { IPaginationOptions } from "../../../interfaces/paginations";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { SortOrder } from "mongoose";
 import { generateRoomId } from "./rooms.utiels";
+import User from "../user/user.model";
 
 const createAroom = async (payload: any): Promise<any> => {
   const { building }: any = payload;
@@ -86,6 +87,7 @@ const deleteRoom = async (id: string): Promise<any> => {
 };
 
 const reviewAndRatings = async (roomId: string, payload: any) => {
+  console.log(payload);
   const result = await Room.findOneAndUpdate(
     { _id: roomId },
     {
@@ -113,6 +115,45 @@ const getreviews = async (userId: any) => {
   return result;
 };
 
+const addToCart = async (roomId: any, userId: string) => {
+  // console.log(roomId);
+  const user: any = await User.findById(userId);
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  if (user.cart.includes(roomId)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Room already in the cart");
+  }
+  const result = await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      $push: {
+        cart: roomId,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+const removeFromCart = async (roomId: string, userId: string) => {
+  const result = await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      $pull: {
+        cart: roomId,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+
 export const roomservices = {
   createAroom,
   getallRooms,
@@ -121,4 +162,6 @@ export const roomservices = {
   deleteRoom,
   reviewAndRatings,
   getreviews,
+  addToCart,
+  removeFromCart,
 };

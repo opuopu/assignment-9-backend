@@ -36,12 +36,13 @@ const getAllBuildings = async (
   filters: any,
   paginationOptions: IPaginationOptions
 ): Promise<any> => {
-  const { searchTerm, minPriceRange, maxPriceRange, roomType, code } = filters;
-  console.log("code", code);
+  const { searchTerm, minPriceRange, maxPriceRange, roomType, code, category } =
+    filters;
+  console.log(filters);
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
   const aggregationPipeline = [];
-
+  console.log("minpricerange", minPriceRange);
   // Use $lookup at the beginning to populate "rooms"
   aggregationPipeline.push({
     $lookup: {
@@ -62,7 +63,13 @@ const getAllBuildings = async (
       },
     });
   }
-
+  if (category) {
+    aggregationPipeline.push({
+      $match: {
+        category: category,
+      },
+    });
+  }
   if (minPriceRange) {
     aggregationPipeline.push({
       $match: {
@@ -96,6 +103,8 @@ const getAllBuildings = async (
       },
     });
   }
+
+  console.log(aggregationPipeline);
   const sortConditions: { [key: string]: SortOrder } = {};
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;

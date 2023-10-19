@@ -18,6 +18,7 @@ const createAbuilding = catchAsync(async (req: Request, res: Response) => {
 });
 const getAllBuildings = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, ServiceFilterableFields);
+  console.log("query", req.query);
   const paginationOptions = pick(req.query, paginationFields);
   const result = await serviceServices.getAllBuildings(
     filters,

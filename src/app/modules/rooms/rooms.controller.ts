@@ -74,6 +74,27 @@ const getreviews = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const addTocart = catchAsync(async (req: Request, res: Response) => {
+  const result = await roomservices.addToCart(req.params.id, req.body.userId);
+  sendResponse<any>(res, {
+    statusCode: 200,
+    success: true,
+    message: "added to cart",
+    data: result,
+  });
+});
+const removeFromCart = catchAsync(async (req: Request, res: Response) => {
+  const result = await roomservices.removeFromCart(
+    req.params.id,
+    req.body.userId
+  );
+  sendResponse<any>(res, {
+    statusCode: 200,
+    success: true,
+    message: "remove from cart",
+    data: result,
+  });
+});
 export const roomController = {
   createAroom,
   getallRooms,
@@ -82,4 +103,6 @@ export const roomController = {
   updateRoom,
   reviewAndRatings,
   getreviews,
+  addTocart,
+  removeFromCart,
 };

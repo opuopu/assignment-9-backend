@@ -20,6 +20,10 @@ const BookingSchema = new Schema(
         required: [true, "nidOrBirth is required"],
       },
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
     room: {
       type: Schema.Types.ObjectId,
       ref: "room",

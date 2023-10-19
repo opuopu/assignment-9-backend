@@ -25,7 +25,17 @@ const ServiceSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["hotels", "apartments", "resorts", "villas"],
+      enum: [
+        "hotels",
+        "apartments",
+        "resorts",
+        "villas",
+        "vacationHome",
+        "guestHouse",
+      ],
+    },
+    description: {
+      type: String,
     },
     images: [
       {
@@ -38,9 +48,6 @@ const ServiceSchema = new Schema(
         type: String,
       },
     ],
-    description: {
-      type: String,
-    },
 
     minPriceRange: {
       type: String,

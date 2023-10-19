@@ -7,6 +7,7 @@ import pick from "../../../shared/pick";
 import paginationFields from "../../../constants/pagination";
 
 const createAbooking = catchAsync(async (req: Request, res: Response) => {
+  console.log("booking", req.body);
   const result = await bookingServices.createAbooking(req.body, req.params.id);
   sendResponse<any>(res, {
     statusCode: 200,

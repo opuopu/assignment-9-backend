@@ -56,11 +56,7 @@ const RoomSchema = new Schema(
     reviewAndRatings: [
       {
         rating: Number,
-      },
-      {
-        comments: String,
-      },
-      {
+        message: String,
         user: {
           type: Schema.Types.ObjectId,
           ref: "user",
