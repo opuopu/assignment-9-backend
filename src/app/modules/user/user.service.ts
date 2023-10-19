@@ -12,6 +12,7 @@ import httpStatus from "http-status";
 
 const createUser = async (userData: IUser): Promise<IUser | null> => {
   const { email, phoneNumber } = userData;
+  console.log("phone number", phoneNumber);
   const findDuplicateEmail = await User.findOne({ email: email });
   if (findDuplicateEmail) {
     throw new ApiError(
@@ -19,8 +20,10 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
       "user already exist with this email  try different one !"
     );
   }
-  const findDuplicatePhone = await User.findOne({ phoneNumber: phoneNumber });
-  console.log(findDuplicatePhone);
+  const findDuplicatePhone = await User.findOne({
+    phoneNumber: phoneNumber,
+  });
+  console.log("find", findDuplicatePhone);
   if (findDuplicatePhone) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,

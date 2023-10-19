@@ -9,6 +9,7 @@ import {
   blogRoutes,
 } from "../modules/contectManagement/content.routes";
 import { faqRoutes } from "../modules/contectManagement/faqroutes";
+import { feedbackRoutes } from "../modules/feedback/feedback.routes";
 
 const router = express.Router();
 
@@ -44,6 +45,10 @@ const moduleRoutes = [
   {
     path: "/content/blog",
     route: blogRoutes,
+  },
+  {
+    path: "/feedback",
+    route: feedbackRoutes,
   },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

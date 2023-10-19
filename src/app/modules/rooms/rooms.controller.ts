@@ -75,6 +75,7 @@ const getreviews = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const addTocart = catchAsync(async (req: Request, res: Response) => {
+  console.log("body", req.body);
   const result = await roomservices.addToCart(req.params.id, req.body.userId);
   sendResponse<any>(res, {
     statusCode: 200,

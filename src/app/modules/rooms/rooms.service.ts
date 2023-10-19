@@ -72,7 +72,9 @@ const getallRooms = async (
   };
 };
 const getsingleRooms = async (id: string): Promise<any> => {
-  const result = await Room.findOne({ _id: id });
+  const result = await Room.findOne({ _id: id }).populate(
+    "reviewAndRatings.user"
+  );
   return result;
 };
 const updateRoom = async (payload: any, id: string): Promise<any> => {
@@ -117,7 +119,8 @@ const getreviews = async (userId: any) => {
 
 const addToCart = async (roomId: any, userId: string) => {
   // console.log(roomId);
-  const user: any = await User.findById(userId);
+  console.log("userId", userId);
+  const user: any = await User.findOne({ _id: userId });
 
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
@@ -140,6 +143,7 @@ const addToCart = async (roomId: any, userId: string) => {
   return result;
 };
 const removeFromCart = async (roomId: string, userId: string) => {
+  console.log(roomId, userId);
   const result = await User.findOneAndUpdate(
     { _id: userId },
     {
@@ -151,6 +155,8 @@ const removeFromCart = async (roomId: string, userId: string) => {
       new: true,
     }
   );
+
+  console.log("result", result);
   return result;
 };
 

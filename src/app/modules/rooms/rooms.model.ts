@@ -59,7 +59,7 @@ const RoomSchema = new Schema(
         message: String,
         user: {
           type: Schema.Types.ObjectId,
-          ref: "user",
+          ref: "User",
         },
       },
     ],

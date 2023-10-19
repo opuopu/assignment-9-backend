@@ -2,10 +2,10 @@ import { Schema, model } from "mongoose";
 
 const feedBackSchema = new Schema(
   {
-    rating: {
+    email: {
       type: String,
     },
-    comments: {
+    feedback: {
       type: String,
     },
     user: {
