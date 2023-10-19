@@ -22,7 +22,7 @@ const BookingSchema = new Schema(
     },
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
     room: {
       type: Schema.Types.ObjectId,

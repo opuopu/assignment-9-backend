@@ -3,4 +3,5 @@ export const roomFilterableFields = [
   "maxPriceRange",
   "minPriceRange",
   "category",
+  "searchTerm",
 ];

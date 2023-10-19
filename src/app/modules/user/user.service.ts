@@ -48,6 +48,7 @@ const getAllUsers = async (
   const query: any = {};
 
   if (payload.email) query.email = { $regex: payload.email, $options: "i" };
+  // if (payload.searchTerm) query.email = { $regex: payload.email, $options: "i" };
   const sortConditions: { [key: string]: SortOrder } = {};
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;

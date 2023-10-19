@@ -41,11 +41,17 @@ const getallRooms = async (
   filters: any,
   paginationOptions: IPaginationOptions
 ): Promise<any> => {
-  const { category, minPriceRange, maxPriceRange } = filters;
+  const { category, minPriceRange, maxPriceRange, searchTerm } = filters;
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
   const query: any = {};
   if (category) query.category = category;
+  if (searchTerm) {
+    query.$or = [
+      { title: { $regex: new RegExp(searchTerm), $options: "i" } },
+      { code: { $regex: new RegExp(searchTerm), $options: "i" } },
+    ];
+  }
   if (minPriceRange || maxPriceRange) {
     query.pricing = {};
     minPriceRange ? (query.pricing.$gte = Number(minPriceRange)) : null;
@@ -56,8 +62,10 @@ const getallRooms = async (
     sortConditions[sortBy] = sortOrder;
   }
 
+  console.log("Query: ", query); // Log the query
+
   const result = await Room.find(query)
-    .sort({ _id: 1 })
+    .sort(sortConditions) // Use the sort conditions you've defined
     .skip(skip)
     .limit(limit)
     .populate("building");
@@ -71,6 +79,7 @@ const getallRooms = async (
     data: result,
   };
 };
+
 const getsingleRooms = async (id: string): Promise<any> => {
   const result = await Room.findOne({ _id: id }).populate(
     "reviewAndRatings.user"

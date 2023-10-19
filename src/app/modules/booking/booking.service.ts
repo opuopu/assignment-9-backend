@@ -26,6 +26,52 @@ const createAbooking = async (payload: any, id: string) => {
   return result;
 };
 
+// const getallBooking = async (
+//   payload: any,
+//   paginationOptions: IPaginationOptions
+// ) => {
+//   const { limit, page, skip, sortBy, sortOrder } =
+//     paginationHelpers.calculatePagination(paginationOptions);
+
+//   const sortConditions: { [key: string]: SortOrder } = {};
+//   const query: any = {};
+//   if (payload.searchTerm) {
+//     query["user.phone"] = {
+//       $regex: new RegExp(payload.searchTerm),
+//       $options: "i",
+//     };
+//   }
+//   if (payload.searchTerm) {
+//     query["user.email"] = {
+//       $regex: new RegExp(payload.searchTerm),
+//       $options: "i",
+//     };
+//   }
+//   if (payload.searchTerm) {
+//     query.bookingNo = { $regex: new RegExp(payload.searchTerm), $options: "i" };
+//   }
+//   if (payload.userId) {
+//     query.userId = payload.userId;
+//   }
+
+//   if (sortBy && sortOrder) {
+//     sortConditions[sortBy] = sortOrder;
+//   }
+
+//   const result = await Booking.find(query)
+//     .sort(sortConditions)
+//     .skip(skip)
+//     .limit(limit);
+//   return {
+//     meta: {
+//       page,
+//       limit,
+//       total: result.length,
+//     },
+//     data: result,
+//   };
+// };
+
 const getallBooking = async (
   payload: any,
   paginationOptions: IPaginationOptions
@@ -35,15 +81,20 @@ const getallBooking = async (
 
   const sortConditions: { [key: string]: SortOrder } = {};
   const query: any = {};
-  if (payload.phone) {
-    query["user.phone"] = { $regex: new RegExp(payload.phone), $options: "i" };
+
+  if (payload.searchTerm) {
+    // Use $or to search for searchTerm in multiple fields
+    query.$or = [
+      {
+        "user.phone": { $regex: new RegExp(payload.searchTerm), $options: "i" },
+      },
+      {
+        "user.email": { $regex: new RegExp(payload.searchTerm), $options: "i" },
+      },
+      { bookingNo: { $regex: new RegExp(payload.searchTerm), $options: "i" } },
+    ];
   }
-  if (payload.email) {
-    query["user.email"] = { $regex: new RegExp(payload.email), $options: "i" };
-  }
-  if (payload.bookingNo) {
-    query.bookingNo = { $regex: new RegExp(payload.bookingNo), $options: "i" };
-  }
+
   if (payload.userId) {
     query.userId = payload.userId;
   }
@@ -56,6 +107,7 @@ const getallBooking = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
+
   return {
     meta: {
       page,

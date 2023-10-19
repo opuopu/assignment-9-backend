@@ -38,7 +38,7 @@ const getAllBuildings = async (
 ): Promise<any> => {
   const { searchTerm, minPriceRange, maxPriceRange, roomType, code, category } =
     filters;
-  console.log(filters);
+  console.log("filters", filters);
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
   const aggregationPipeline = [];
@@ -127,7 +127,7 @@ const getAllBuildings = async (
 
 const getSingleBuilding = async (id: string): Promise<any> => {
   const result = await Service.findOne({ _id: id }).populate("rooms");
-  console.log(result);
+
   return result;
 };
 const updateBuilding = async (payload: any, id: string): Promise<any> => {

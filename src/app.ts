@@ -10,7 +10,10 @@ export const app: Application = express();
 //cors
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "https://booking-ideqevieu-opuopu.vercel.app/",
+    ],
     credentials: true,
   })
 );
