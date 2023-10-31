@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 import { LocationEnum } from "./service.constant";
+import IServiceSchema from "./service.interface";
 
-const ServiceSchema = new Schema(
+const ServiceSchema = new Schema<IServiceSchema>(
   {
     name: {
       type: String,
@@ -50,11 +51,11 @@ const ServiceSchema = new Schema(
     ],
 
     minPriceRange: {
-      type: String,
+      type: Number,
       default: 0,
     },
     maxPriceRange: {
-      type: String,
+      type: Number,
       default: 0,
     },
     status: {
