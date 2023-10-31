@@ -13,7 +13,7 @@ import User from "../user/user.model";
 const createAroom = async (payload: any): Promise<any> => {
   const { building }: any = payload;
   const roomId = await generateRoomId(payload?.title);
-  console.log(building);
+
   payload.roomId = roomId;
   const room = await Room.create(payload);
   if (!room) {
@@ -62,8 +62,6 @@ const getallRooms = async (
     sortConditions[sortBy] = sortOrder;
   }
 
-  console.log("Query: ", query); // Log the query
-
   const result = await Room.find(query)
     .sort(sortConditions) // Use the sort conditions you've defined
     .skip(skip)
@@ -98,7 +96,6 @@ const deleteRoom = async (id: string): Promise<any> => {
 };
 
 const reviewAndRatings = async (roomId: string, payload: any) => {
-  console.log(payload);
   const result = await Room.findOneAndUpdate(
     { _id: roomId },
     {
@@ -127,8 +124,6 @@ const getreviews = async (userId: any) => {
 };
 
 const addToCart = async (roomId: any, userId: string) => {
-  // console.log(roomId);
-  console.log("userId", userId);
   const user: any = await User.findOne({ _id: userId });
 
   if (!user) {
@@ -152,7 +147,6 @@ const addToCart = async (roomId: any, userId: string) => {
   return result;
 };
 const removeFromCart = async (roomId: string, userId: string) => {
-  console.log(roomId, userId);
   const result = await User.findOneAndUpdate(
     { _id: userId },
     {
@@ -165,7 +159,6 @@ const removeFromCart = async (roomId: string, userId: string) => {
     }
   );
 
-  console.log("result", result);
   return result;
 };
 

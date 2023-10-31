@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-expressions */
 import { SortOrder } from "mongoose";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
@@ -142,7 +143,6 @@ const cancelBooking = async (id: string) => {
   return result;
 };
 const updatebookingStatusByAdmin = async (payload: any, id: string) => {
-  console.log(payload);
   const result = await Booking.findByIdAndUpdate(
     id,
     {
@@ -176,7 +176,6 @@ const updatebookingStatusByAdmin = async (payload: any, id: string) => {
           new: true,
         }
       );
-      console.log(updateHere);
     }
   }
 

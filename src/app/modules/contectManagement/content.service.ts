@@ -77,11 +77,10 @@ const getsinglefaqs = async (id: string) => {
 };
 
 const updatefaqs = async (payload: any, id: string) => {
-  console.log(payload, id);
   const result = await Faq.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
-  console.log(result);
+
   return result;
 };
 const deletefaqs = async (id: string) => {

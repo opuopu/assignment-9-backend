@@ -12,7 +12,7 @@ import httpStatus from "http-status";
 
 const createUser = async (userData: IUser): Promise<IUser | null> => {
   const { email, phoneNumber } = userData;
-  console.log("phone number", phoneNumber);
+
   const findDuplicateEmail = await User.findOne({ email: email });
   if (findDuplicateEmail) {
     throw new ApiError(
@@ -23,7 +23,7 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
   const findDuplicatePhone = await User.findOne({
     phoneNumber: phoneNumber,
   });
-  console.log("find", findDuplicatePhone);
+
   if (findDuplicatePhone) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
@@ -70,7 +70,7 @@ const getAllUsers = async (
 };
 const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findOne({ _id: id }).populate("cart");
-  console.log(result);
+
   return result;
 };
 
@@ -85,7 +85,7 @@ const updateUser = async (
   }
 
   const { role, ...UserData } = payload;
-  console.log(payload);
+
   if (role) {
     throw new ApiError(
       500,
@@ -96,7 +96,7 @@ const updateUser = async (
   const result = await User.findOneAndUpdate({ _id: id }, UserData, {
     new: true,
   });
-  console.log("result", result);
+
   return result;
 };
 const deleteUser = async (id: string): Promise<IUser | null> => {
@@ -107,7 +107,7 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
 
 const manageRole = async (payload: any, id: string) => {
   const { role }: any = payload;
-  console.log(role);
+
   const result = await User.findOneAndUpdate(
     { _id: id },
     {

@@ -8,7 +8,6 @@ import paginationFields from "../../../constants/pagination";
 import IBooking from "./booking.interface";
 
 const createAbooking = catchAsync(async (req: Request, res: Response) => {
-  console.log("booking", req.body);
   const result = await bookingServices.createAbooking(req.body, req.params.id);
   sendResponse<IBooking>(res, {
     statusCode: 200,
@@ -75,7 +74,7 @@ const updatebookingStatusByAdmin = catchAsync(
       req.body,
       req.params.id
     );
-    console.log(req.body);
+
     sendResponse<IBooking>(res, {
       statusCode: 200,
       success: true,

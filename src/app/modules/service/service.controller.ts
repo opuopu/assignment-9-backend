@@ -10,7 +10,7 @@ import IServicInterface from "./service.interface";
 
 const createAbuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.createBuilding(req.body);
-  sendResponse<IServicInterface>(res, {
+  sendResponse<any>(res, {
     statusCode: 200,
     success: true,
     message: "service created  successfully",
@@ -19,13 +19,13 @@ const createAbuilding = catchAsync(async (req: Request, res: Response) => {
 });
 const getAllBuildings = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, ServiceFilterableFields);
-  console.log("query", req.query);
+
   const paginationOptions = pick(req.query, paginationFields);
   const result = await serviceServices.getAllBuildings(
     filters,
     paginationOptions
   );
-  sendResponse<IServicInterface>(res, {
+  sendResponse<any>(res, {
     statusCode: 200,
     success: true,
     message: "service retrive  successfully",
@@ -36,7 +36,7 @@ const getAllBuildings = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.getSingleBuilding(req.params.id);
-  sendResponse<IServicInterface>(res, {
+  sendResponse<any>(res, {
     statusCode: 200,
     success: true,
     message: "service retrive  successfully",
@@ -45,7 +45,7 @@ const getSingleBuilding = catchAsync(async (req: Request, res: Response) => {
 });
 const updateBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.updateBuilding(req.body, req.params.id);
-  sendResponse<IServicInterface>(res, {
+  sendResponse<any>(res, {
     statusCode: 200,
     success: true,
     message: "service updated  successfully",

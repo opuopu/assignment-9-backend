@@ -11,7 +11,7 @@ import paginationFields from "../../../constants/pagination";
 const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...userData } = req.body;
-    console.log(userData);
+
     const result = await UserService.createUser(userData);
 
     sendResponse(res, {
@@ -48,8 +48,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-  console.log(updatedData);
-  console.log("body", req.body);
+
   const result = await UserService.updateUser(id, updatedData);
   sendResponse<IUser>(res, {
     statusCode: 200,
