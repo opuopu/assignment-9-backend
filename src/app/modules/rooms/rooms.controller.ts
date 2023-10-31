@@ -6,10 +6,11 @@ import { roomservices } from "./rooms.service";
 import pick from "../../../shared/pick";
 import { roomFilterableFields } from "./rooms.constant";
 import paginationFields from "../../../constants/pagination";
+import IRoom from "./rooms.interface";
 
 const createAroom = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.createAroom(req.body);
-  sendResponse<any>(res, {
+  sendResponse<IRoom>(res, {
     statusCode: 200,
     success: true,
     message: "room created  successfully",
@@ -20,7 +21,7 @@ const getallRooms = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, roomFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
   const result = await roomservices.getallRooms(filters, paginationOptions);
-  sendResponse<any>(res, {
+  sendResponse<IRoom[]>(res, {
     statusCode: 200,
     success: true,
     message: "rooms retrive  successfully",
@@ -31,7 +32,7 @@ const getallRooms = catchAsync(async (req: Request, res: Response) => {
 
 const getsingleRooms = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.getsingleRooms(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IRoom>(res, {
     statusCode: 200,
     success: true,
     message: "room retrive  successfully",
@@ -40,7 +41,7 @@ const getsingleRooms = catchAsync(async (req: Request, res: Response) => {
 });
 const updateRoom = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.updateRoom(req.body, req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IRoom>(res, {
     statusCode: 200,
     success: true,
     message: "room updated  successfully",
@@ -49,7 +50,7 @@ const updateRoom = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteRoom = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.deleteRoom(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IRoom>(res, {
     statusCode: 200,
     success: true,
     message: "room deleted  successfully",
@@ -58,7 +59,7 @@ const deleteRoom = catchAsync(async (req: Request, res: Response) => {
 });
 const reviewAndRatings = catchAsync(async (req: Request, res: Response) => {
   const result = await roomservices.reviewAndRatings(req.params.id, req.body);
-  sendResponse<any>(res, {
+  sendResponse<IRoom>(res, {
     statusCode: 200,
     success: true,
     message: "review added",

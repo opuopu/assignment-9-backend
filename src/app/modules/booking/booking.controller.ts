@@ -5,11 +5,12 @@ import { bookingServices } from "./booking.service";
 import sendResponse from "../../../shared/sendResponse";
 import pick from "../../../shared/pick";
 import paginationFields from "../../../constants/pagination";
+import IBooking from "./booking.interface";
 
 const createAbooking = catchAsync(async (req: Request, res: Response) => {
   console.log("booking", req.body);
   const result = await bookingServices.createAbooking(req.body, req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IBooking>(res, {
     statusCode: 200,
     success: true,
     message: "booking created   successfully",
@@ -23,7 +24,7 @@ const getallBooking = catchAsync(async (req: Request, res: Response) => {
     req.query,
     paginationOptions
   );
-  sendResponse<any>(res, {
+  sendResponse<IBooking[]>(res, {
     statusCode: 200,
     success: true,
     message: "booking retrive  successfully",
@@ -34,7 +35,7 @@ const getallBooking = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingServices.getSingleBooking(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IBooking>(res, {
     statusCode: 200,
     success: true,
     message: "booking retrive  successfully",
@@ -43,7 +44,7 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
 });
 const updateBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingServices.updateBooking(req.body, req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IBooking>(res, {
     statusCode: 200,
     success: true,
     message: "booking updated  successfully",
@@ -52,7 +53,7 @@ const updateBooking = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingServices.deleteBooking(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IBooking>(res, {
     statusCode: 200,
     success: true,
     message: "booking deleted  successfully",
@@ -61,7 +62,7 @@ const deleteBooking = catchAsync(async (req: Request, res: Response) => {
 });
 const cancelBooking = catchAsync(async (req: Request, res: Response) => {
   const result = await bookingServices.cancelBooking(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IBooking>(res, {
     statusCode: 200,
     success: true,
     message: "booking cancelled  successfully",
@@ -75,7 +76,7 @@ const updatebookingStatusByAdmin = catchAsync(
       req.params.id
     );
     console.log(req.body);
-    sendResponse<any>(res, {
+    sendResponse<IBooking>(res, {
       statusCode: 200,
       success: true,
       message: "booking status updated  successfully",
@@ -88,7 +89,7 @@ const updateRoomBookingSchedulling = catchAsync(
     const result = await bookingServices.updateRoomBookingStatusSchedulling(
       req.params.id
     );
-    sendResponse<any>(res, {
+    sendResponse<IBooking>(res, {
       statusCode: 200,
       success: true,
       message: "room booking status reset  successfully",
