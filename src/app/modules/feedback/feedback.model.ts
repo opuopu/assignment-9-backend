@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
+import IFeedback from "./feedback.interface";
 
-const feedBackSchema = new Schema(
+const feedBackSchema = new Schema<IFeedback>(
   {
     email: {
       type: String,
@@ -17,4 +18,4 @@ const feedBackSchema = new Schema(
     timestamps: true,
   }
 );
-export const Feedback = model("feedback", feedBackSchema);
+export const Feedback = model<IFeedback>("feedback", feedBackSchema);

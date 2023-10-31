@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { LocationEnum } from "./service.constant";
-import IServiceSchema from "./service.interface";
+import IServiceSchema, { IServicInterface } from "./service.interface";
 
 const ServiceSchema = new Schema<IServiceSchema>(
   {
@@ -81,6 +81,6 @@ const ServiceSchema = new Schema<IServiceSchema>(
 
 // room Schema
 
-const Service = model("service", ServiceSchema);
+const Service = model<IServicInterface>("service", ServiceSchema);
 
 export default Service;

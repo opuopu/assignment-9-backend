@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
+import { IAboutUs, IFaq, Iblog } from "./content.interface";
 
-const BlogSchema = new Schema(
+const BlogSchema = new Schema<Iblog>(
   {
     image: {
       url: String,
@@ -19,7 +20,7 @@ const BlogSchema = new Schema(
     timestamps: true,
   }
 );
-const faqSchema = new Schema(
+const faqSchema = new Schema<IFaq>(
   {
     image: {
       url: String,
@@ -38,7 +39,7 @@ const faqSchema = new Schema(
     timestamps: true,
   }
 );
-const AboutUsSchema = new Schema(
+const AboutUsSchema = new Schema<IAboutUs>(
   {
     title: {
       type: String,
@@ -54,6 +55,6 @@ const AboutUsSchema = new Schema(
   }
 );
 
-export const Blog = model("blog", BlogSchema);
-export const Faq = model("faq", faqSchema);
-export const AboutUs = model("about", AboutUsSchema);
+export const Blog = model<Iblog>("blog", BlogSchema);
+export const Faq = model<IFaq>("faq", faqSchema);
+export const AboutUs = model<IAboutUs>("about", AboutUsSchema);

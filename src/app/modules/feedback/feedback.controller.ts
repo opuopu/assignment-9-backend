@@ -3,10 +3,11 @@ import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchasync";
 import sendResponse from "../../../shared/sendResponse";
 import { feedbackservices } from "./feedback.service";
+import IFeedback from "./feedback.interface";
 
 const postAFeedBack = catchAsync(async (req: Request, res: Response) => {
   const result = await feedbackservices.postAFeedBack(req.body);
-  sendResponse<any>(res, {
+  sendResponse<IFeedback>(res, {
     statusCode: 200,
     success: true,
     message: "feedback posted  successfully",
@@ -15,7 +16,7 @@ const postAFeedBack = catchAsync(async (req: Request, res: Response) => {
 });
 const getallfeedBack = catchAsync(async (req: Request, res: Response) => {
   const result = await feedbackservices.getallfeedBack();
-  sendResponse<any>(res, {
+  sendResponse<IFeedback[]>(res, {
     statusCode: 200,
     success: true,
     message: "feedback retrive   successfully",
@@ -25,7 +26,7 @@ const getallfeedBack = catchAsync(async (req: Request, res: Response) => {
 
 const getsingleFeedBack = catchAsync(async (req: Request, res: Response) => {
   const result = await feedbackservices.getsingleFeedBack(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IFeedback>(res, {
     statusCode: 200,
     success: true,
     message: "feedback retrive  successfully",
@@ -34,7 +35,7 @@ const getsingleFeedBack = catchAsync(async (req: Request, res: Response) => {
 });
 const updatefeedback = catchAsync(async (req: Request, res: Response) => {
   const result = await feedbackservices.updatefeedback(req.body, req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IFeedback>(res, {
     statusCode: 200,
     success: true,
     message: "feedback update  successfully",
@@ -43,7 +44,7 @@ const updatefeedback = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteFeedback = catchAsync(async (req: Request, res: Response) => {
   const result = await feedbackservices.deleteFeedback(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IFeedback>(res, {
     statusCode: 200,
     success: true,
     message: "feedback deleted  successfully",

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import IFeedback from "./feedback.interface";
 import { Feedback } from "./feedback.model";
 
 const postAFeedBack = async (payload: any) => {
   const result = await Feedback.create(payload);
   return result;
 };
-const getallfeedBack = async () => {
+const getallfeedBack = async (): Promise<IFeedback[]> => {
   const result = await Feedback.find({});
   return result;
 };

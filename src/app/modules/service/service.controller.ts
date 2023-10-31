@@ -6,10 +6,11 @@ import { serviceServices } from "./service.service";
 import pick from "../../../shared/pick";
 import { ServiceFilterableFields } from "./service.constant";
 import paginationFields from "../../../constants/pagination";
+import IServicInterface from "./service.interface";
 
 const createAbuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.createBuilding(req.body);
-  sendResponse<any>(res, {
+  sendResponse<IServicInterface>(res, {
     statusCode: 200,
     success: true,
     message: "service created  successfully",
@@ -24,7 +25,7 @@ const getAllBuildings = catchAsync(async (req: Request, res: Response) => {
     filters,
     paginationOptions
   );
-  sendResponse<any>(res, {
+  sendResponse<IServicInterface>(res, {
     statusCode: 200,
     success: true,
     message: "service retrive  successfully",
@@ -35,7 +36,7 @@ const getAllBuildings = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.getSingleBuilding(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IServicInterface>(res, {
     statusCode: 200,
     success: true,
     message: "service retrive  successfully",
@@ -44,7 +45,7 @@ const getSingleBuilding = catchAsync(async (req: Request, res: Response) => {
 });
 const updateBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.updateBuilding(req.body, req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IServicInterface>(res, {
     statusCode: 200,
     success: true,
     message: "service updated  successfully",
@@ -53,7 +54,7 @@ const updateBuilding = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await serviceServices.deleteBuilding(req.params.id);
-  sendResponse<any>(res, {
+  sendResponse<IServicInterface>(res, {
     statusCode: 200,
     success: true,
     message: "service deleted  successfully",
