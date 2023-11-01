@@ -11,12 +11,12 @@ router.post(
 );
 router.get(
   "/",
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
+
   ServiceController.getAllBuildings
 );
 router.get(
   "/:id",
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
+
   ServiceController.getSingleBuilding
 );
 router.patch(

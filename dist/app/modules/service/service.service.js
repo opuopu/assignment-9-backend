@@ -42,10 +42,8 @@ const createBuilding = (payload) => __awaiter(void 0, void 0, void 0, function* 
 // };
 const getAllBuildings = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm, minPriceRange, maxPriceRange, roomType, code, category } = filters;
-    console.log(filters);
     const { limit, page, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(paginationOptions);
     const aggregationPipeline = [];
-    console.log("minpricerange", minPriceRange);
     // Use $lookup at the beginning to populate "rooms"
     aggregationPipeline.push({
         $lookup: {
@@ -104,7 +102,6 @@ const getAllBuildings = (filters, paginationOptions) => __awaiter(void 0, void 0
             },
         });
     }
-    console.log(aggregationPipeline);
     const sortConditions = {};
     if (sortBy && sortOrder) {
         sortConditions[sortBy] = sortOrder;
@@ -124,7 +121,6 @@ const getAllBuildings = (filters, paginationOptions) => __awaiter(void 0, void 0
 });
 const getSingleBuilding = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield service_model_1.default.findOne({ _id: id }).populate("rooms");
-    console.log(result);
     return result;
 });
 const updateBuilding = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {

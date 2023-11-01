@@ -86,7 +86,6 @@ const getreviews = (0, catchasync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const addTocart = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("body", req.body);
     const result = yield rooms_service_1.roomservices.addToCart(req.params.id, req.body.userId);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,

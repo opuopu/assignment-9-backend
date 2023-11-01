@@ -19,7 +19,6 @@ const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const pagination_1 = __importDefault(require("../../../constants/pagination"));
 const createAbooking = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("booking", req.body);
     const result = yield booking_service_1.bookingServices.createAbooking(req.body, req.params.id);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
@@ -77,7 +76,6 @@ const cancelBooking = (0, catchasync_1.default)((req, res) => __awaiter(void 0, 
 }));
 const updatebookingStatusByAdmin = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_service_1.bookingServices.updatebookingStatusByAdmin(req.body, req.params.id);
-    console.log(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,

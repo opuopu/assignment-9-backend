@@ -134,7 +134,6 @@ const cancelBooking = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updatebookingStatusByAdmin = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload);
     const result = yield booking_model_1.default.findByIdAndUpdate(id, {
         $set: {
             status: (payload.status === "confirmed" && "confirmed") ||
@@ -157,7 +156,6 @@ const updatebookingStatusByAdmin = (payload, id) => __awaiter(void 0, void 0, vo
             }, {
                 new: true,
             });
-            console.log(updateHere);
         }
     }
     return result;

@@ -74,11 +74,9 @@ const getsinglefaqs = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updatefaqs = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload, id);
     const result = yield content_model_1.Faq.findOneAndUpdate({ _id: id }, payload, {
         new: true,
     });
-    console.log(result);
     return result;
 });
 const deletefaqs = (id) => __awaiter(void 0, void 0, void 0, function* () {

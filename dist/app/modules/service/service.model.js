@@ -49,11 +49,11 @@ const ServiceSchema = new mongoose_1.Schema({
         },
     ],
     minPriceRange: {
-        type: String,
+        type: Number,
         default: 0,
     },
     maxPriceRange: {
-        type: String,
+        type: Number,
         default: 0,
     },
     status: {

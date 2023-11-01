@@ -33,7 +33,6 @@ const http_status_1 = __importDefault(require("http-status"));
 // import config from "../../../config";
 const createUser = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, phoneNumber } = userData;
-    console.log("phone number", phoneNumber);
     const findDuplicateEmail = yield user_model_1.default.findOne({ email: email });
     if (findDuplicateEmail) {
         throw new Apierror_1.default(http_status_1.default.BAD_REQUEST, "user already exist with this email  try different one !");
@@ -41,7 +40,6 @@ const createUser = (userData) => __awaiter(void 0, void 0, void 0, function* () 
     const findDuplicatePhone = yield user_model_1.default.findOne({
         phoneNumber: phoneNumber,
     });
-    console.log("find", findDuplicatePhone);
     if (findDuplicatePhone) {
         throw new Apierror_1.default(http_status_1.default.BAD_REQUEST, "user already exist with this phone try different One!");
     }
@@ -78,7 +76,6 @@ const getAllUsers = (payload, paginationOptions) => __awaiter(void 0, void 0, vo
 });
 const getSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.default.findOne({ _id: id }).populate("cart");
-    console.log(result);
     return result;
 });
 const updateUser = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -87,14 +84,12 @@ const updateUser = (id, payload) => __awaiter(void 0, void 0, void 0, function* 
         throw new Apierror_1.default(404, "User not found !");
     }
     const { role } = payload, UserData = __rest(payload, ["role"]);
-    console.log(payload);
     if (role) {
         throw new Apierror_1.default(500, "something went wrong. you cannot update your role");
     }
     const result = yield user_model_1.default.findOneAndUpdate({ _id: id }, UserData, {
         new: true,
     });
-    console.log("result", result);
     return result;
 });
 const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -103,7 +98,6 @@ const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const manageRole = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {
     const { role } = payload;
-    console.log(role);
     const result = yield user_model_1.default.findOneAndUpdate({ _id: id }, {
         $set: {
             role: (role === "admin" && "admin") ||

@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.feedbackservices = void 0;
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const feedback_model_1 = require("./feedback.model");
 const postAFeedBack = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield feedback_model_1.Feedback.create(payload);

@@ -30,7 +30,6 @@ const createAbuilding = (0, catchasync_1.default)((req, res) => __awaiter(void 0
 }));
 const getAllBuildings = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filters = (0, pick_1.default)(req.query, service_constant_1.ServiceFilterableFields);
-    console.log("query", req.query);
     const paginationOptions = (0, pick_1.default)(req.query, pagination_1.default);
     const result = yield service_service_1.serviceServices.getAllBuildings(filters, paginationOptions);
     (0, sendResponse_1.default)(res, {

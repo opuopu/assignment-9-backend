@@ -31,7 +31,6 @@ const pick_1 = __importDefault(require("../../../shared/pick"));
 const pagination_1 = __importDefault(require("../../../constants/pagination"));
 const createUser = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = __rest(req.body, []);
-    console.log(userData);
     const result = yield user_service_1.UserService.createUser(userData);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
@@ -64,8 +63,6 @@ const getSingleUser = (0, catchasync_1.default)((req, res) => __awaiter(void 0, 
 const updateUser = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const updatedData = req.body;
-    console.log(updatedData);
-    console.log("body", req.body);
     const result = yield user_service_1.UserService.updateUser(id, updatedData);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,

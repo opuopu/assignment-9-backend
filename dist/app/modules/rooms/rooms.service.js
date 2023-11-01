@@ -25,7 +25,6 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 const createAroom = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { building } = payload;
     const roomId = yield (0, rooms_utiels_1.generateRoomId)(payload === null || payload === void 0 ? void 0 : payload.title);
-    console.log(building);
     payload.roomId = roomId;
     const room = yield rooms_model_1.default.create(payload);
     if (!room) {
@@ -46,10 +45,12 @@ const getallRooms = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
     const query = {};
     if (category)
         query.category = category;
-    if (searchTerm)
-        query.name = { $regex: searchTerm, $options: "i" };
-    if (searchTerm)
-        query.code = { $regex: searchTerm, $options: "i" };
+    if (searchTerm) {
+        query.$or = [
+            { title: { $regex: new RegExp(searchTerm), $options: "i" } },
+            { code: { $regex: new RegExp(searchTerm), $options: "i" } },
+        ];
+    }
     if (minPriceRange || maxPriceRange) {
         query.pricing = {};
         minPriceRange ? (query.pricing.$gte = Number(minPriceRange)) : null;
@@ -60,7 +61,7 @@ const getallRooms = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         sortConditions[sortBy] = sortOrder;
     }
     const result = yield rooms_model_1.default.find(query)
-        .sort({ _id: 1 })
+        .sort(sortConditions) // Use the sort conditions you've defined
         .skip(skip)
         .limit(limit)
         .populate("building");
@@ -88,7 +89,6 @@ const deleteRoom = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const reviewAndRatings = (roomId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload);
     const result = yield rooms_model_1.default.findOneAndUpdate({ _id: roomId }, {
         $push: {
             reviewAndRatings: payload,
@@ -113,8 +113,6 @@ const getreviews = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const addToCart = (roomId, userId) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(roomId);
-    console.log("userId", userId);
     const user = yield user_model_1.default.findOne({ _id: userId });
     if (!user) {
         throw new Apierror_1.default(http_status_1.default.NOT_FOUND, "User not found");
@@ -132,7 +130,6 @@ const addToCart = (roomId, userId) => __awaiter(void 0, void 0, void 0, function
     return result;
 });
 const removeFromCart = (roomId, userId) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(roomId, userId);
     const result = yield user_model_1.default.findOneAndUpdate({ _id: userId }, {
         $pull: {
             cart: roomId,
@@ -140,7 +137,6 @@ const removeFromCart = (roomId, userId) => __awaiter(void 0, void 0, void 0, fun
     }, {
         new: true,
     });
-    console.log("result", result);
     return result;
 });
 exports.roomservices = {
