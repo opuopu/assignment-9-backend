@@ -26,6 +26,7 @@ exports.app.use((0, cors_1.default)({
         "http://localhost:3000",
         "https://booking-ideqevieu-opuopu.vercel.app",
         "https://dreamy-narwhal-1b29a1.netlify.app",
+        "https://booking-com-woad.vercel.app/",
     ],
     credentials: true,
 }));

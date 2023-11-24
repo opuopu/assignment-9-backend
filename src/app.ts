@@ -11,7 +11,7 @@ export const app: Application = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
+      "https://localhost:3000",
       "https://booking-ideqevieu-opuopu.vercel.app",
       "https://dreamy-narwhal-1b29a1.netlify.app",
       "https://booking-com-woad.vercel.app/",
