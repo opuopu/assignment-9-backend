@@ -23,10 +23,10 @@ exports.app = (0, express_1.default)();
 //cors
 exports.app.use((0, cors_1.default)({
     origin: [
-        "http://localhost:3000",
+        "https://localhost:3000",
         "https://booking-ideqevieu-opuopu.vercel.app",
         "https://dreamy-narwhal-1b29a1.netlify.app",
-        "https://booking-com-woad.vercel.app/",
+        "https://booking-com-woad.vercel.app",
     ],
     credentials: true,
 }));
